@@ -58,23 +58,6 @@
     self.display.text = [NSString stringWithFormat:@"%g", result];
 }
 
-- (IBAction)functionPressed:(UIButton *)sender {
-    if (self.userIsInTheMiddleOfEnteringANumber) {
-        [self enterPressed];
-    }
-    NSString *function = [sender currentTitle];
-    double result = [self.brain performFunction:function];
-    self.display.text = [NSString stringWithFormat:@"%g", result];
-}
-
-- (IBAction)piPressed {
-    if (self.userIsInTheMiddleOfEnteringANumber) {
-        [self enterPressed];
-    }
-    double result = [self.brain pushPi];
-    self.display.text = [NSString stringWithFormat:@"%g", result];
-}
-
 - (IBAction)backspacePressed {
     if (!self.userIsInTheMiddleOfEnteringANumber) return;
     
@@ -91,6 +74,16 @@
         }
         self.display.text = [self.display.text substringToIndex:(displayLength-1)];
     }
+}
+
+- (IBAction)clearPressed {
+//    if (self.userIsInTheMiddleOfEnteringANumber) {
+        self.display.text = @"0";
+        self.userIsInTheMiddleOfEnteringANumber = NO;
+//    } else {
+    
+//    }
+    
 }
 
 @end

@@ -46,38 +46,21 @@
     } else if ([operation isEqualToString:@"/"]) {
         double divisor = [self popOperand];
         if (divisor) result = [self popOperand] / divisor;
-    }
-    
-    [self pushOperand:result];
-    
-    return result;
-}
-
-- (double)performFunction:(NSString *)function {
-    double result = 0;
-    
-    if ([function isEqualToString:@"sin"]) {
+    } else if ([operation isEqualToString:@"sin"]) {
         result = sin([self popOperand]);
-    } else if ([function isEqualToString:@"cos"]) {
+    } else if ([operation isEqualToString:@"cos"]) {
         result = cos([self popOperand]);
-    } else if ([function isEqualToString:@"sqrt"]) {
+    } else if ([operation isEqualToString:@"sqrt"]) {
         result = sqrt([self popOperand]);
-    } else if ([function isEqualToString:@"log"]) {
+    } else if ([operation isEqualToString:@"log"]) {
         result = log([self popOperand]);
+    } else if ([operation isEqualToString:@" π "]) {
+        result = 3.14;
     }
 
     [self pushOperand:result];
     
     return result;
 }
-
-- (double)pushPi {
-    double result = 3.14;
-    [self pushOperand:result];
-    
-    return result;
-}
-
-
 
 @end
