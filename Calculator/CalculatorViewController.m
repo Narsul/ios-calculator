@@ -11,7 +11,6 @@
 
 @interface CalculatorViewController ()
 @property (nonatomic) BOOL userIsInTheMiddleOfEnteringANumber;
-@property (nonatomic) BOOL dotAlreadyExistsInANumber;
 @property (nonatomic, strong) CalculatorBrain *brain;
 @end
 
@@ -35,18 +34,19 @@
 - (IBAction)enterPressed {
     [self.brain pushOperand:[self.display.text doubleValue]];
     self.userIsInTheMiddleOfEnteringANumber = NO;
-    self.dotAlreadyExistsInANumber =  NO;
 }
 
 - (IBAction)dotPressed {
-    if (self.dotAlreadyExistsInANumber) return;
     if (self.userIsInTheMiddleOfEnteringANumber) {
+        NSRange rangeOfDotCharInString = [self.display.text rangeOfString:@"."];
+        // if there is already dot in the number, do nothing
+        if (rangeOfDotCharInString.location != NSNotFound) return;
         self.display.text = [self.display.text stringByAppendingString:@"."];
     } else {
+        // if user just clicked enter of operation, then we should start from new number
         self.display.text = @"0.";
         self.userIsInTheMiddleOfEnteringANumber = YES;
     }
-    self.dotAlreadyExistsInANumber = YES;
 }
 
 - (IBAction)operationPressed:(id)sender {
@@ -62,17 +62,15 @@
     if (!self.userIsInTheMiddleOfEnteringANumber) return;
     
     NSUInteger displayLength = [self.display.text length];
-    NSString *charToBeDeleted = [self.display.text substringFromIndex:(displayLength-1)];
-    NSString *charBeforeCharToBeDeleted = [[self.display.text substringFromIndex:(displayLength-2)] substringToIndex:(displayLength-1)];
+    NSString *charBeforeCharToBeDeleted = [self.display.text substringWithRange:NSMakeRange(displayLength - 2, 1)];
+    // if number is one digit in size, thrn after romoving it we should treat it as a new number
     if (displayLength == 1) {
         self.display.text = @"0";
         self.userIsInTheMiddleOfEnteringANumber = NO;
     } else {
-        if ([charToBeDeleted isEqualToString:@"."]) {
-            self.dotAlreadyExistsInANumber = NO;
-            if ([charBeforeCharToBeDeleted isEqualToString:@"0"]) {
-                self.userIsInTheMiddleOfEnteringANumber = NO;
-            }
+        // if there is only one symbol left and it's a "0" then we sgould treat it as a new number
+        if (displayLength == 2 && [charBeforeCharToBeDeleted isEqualToString:@"0"]) {
+            self.userIsInTheMiddleOfEnteringANumber = NO;
         }
         self.display.text = [self.display.text substringToIndex:(displayLength-1)];
     }
