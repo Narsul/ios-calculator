@@ -13,5 +13,6 @@
 - (void)pushOperand:(double)operand;
 - (double)performOperation:(NSString *)operation;
 - (double)performFunction:(NSString *)function;
+- (double)pushPi;
 
 @end

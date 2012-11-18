@@ -58,12 +58,20 @@
     self.display.text = [NSString stringWithFormat:@"%g", result];
 }
 
-- (IBAction)functionPressed:(id)sender {
+- (IBAction)functionPressed:(UIButton *)sender {
     if (self.userIsInTheMiddleOfEnteringANumber) {
         [self enterPressed];
     }
     NSString *function = [sender currentTitle];
     double result = [self.brain performFunction:function];
+    self.display.text = [NSString stringWithFormat:@"%g", result];
+}
+
+- (IBAction)piPressed {
+    if (self.userIsInTheMiddleOfEnteringANumber) {
+        [self enterPressed];
+    }
+    double result = [self.brain pushPi];
     self.display.text = [NSString stringWithFormat:@"%g", result];
 }
 

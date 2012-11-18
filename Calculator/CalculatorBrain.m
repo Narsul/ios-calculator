@@ -71,6 +71,13 @@
     return result;
 }
 
+- (double)pushPi {
+    double result = 3.14;
+    [self pushOperand:result];
+    
+    return result;
+}
+
 
 
 @end
