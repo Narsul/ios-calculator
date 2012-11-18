@@ -58,6 +58,15 @@
     self.display.text = [NSString stringWithFormat:@"%g", result];
 }
 
+- (IBAction)functionPressed:(id)sender {
+    if (self.userIsInTheMiddleOfEnteringANumber) {
+        [self enterPressed];
+    }
+    NSString *function = [sender currentTitle];
+    double result = [self.brain performFunction:function];
+    self.display.text = [NSString stringWithFormat:@"%g", result];
+}
+
 - (IBAction)backspacePressed {
     if (!self.userIsInTheMiddleOfEnteringANumber) return;
     

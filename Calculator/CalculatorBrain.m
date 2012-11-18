@@ -7,6 +7,7 @@
 //
 
 #import "CalculatorBrain.h"
+#include <math.h>
 
 @interface CalculatorBrain()
 @property (nonatomic, strong) NSMutableArray *operandStack;
@@ -14,29 +15,25 @@
 
 @implementation CalculatorBrain
 
-- (NSMutableArray *)operandStack
-{
+- (NSMutableArray *)operandStack {
     if (!_operandStack) {
         _operandStack = [[NSMutableArray alloc] init];
     }
     return _operandStack;
 }
 
-- (void)pushOperand:(double)operand
-{
+- (void)pushOperand:(double)operand {
     NSNumber *operandObject = [NSNumber numberWithDouble:operand];
     [self.operandStack addObject:operandObject];
 }
 
-- (double)popOperand
-{
+- (double)popOperand {
     NSNumber *operandObject = [self.operandStack lastObject];
     if (operandObject) [self.operandStack removeLastObject];
     return [operandObject doubleValue];
 }
 
-- (double)performOperation:(NSString *)operation
-{
+- (double)performOperation:(NSString *)operation {
     double result = 0;
     
     if ([operation isEqualToString:@"+"]) {
@@ -55,5 +52,25 @@
     
     return result;
 }
+
+- (double)performFunction:(NSString *)function {
+    double result = 0;
+    
+    if ([function isEqualToString:@"sin"]) {
+        result = sin([self popOperand]);
+    } else if ([function isEqualToString:@"cos"]) {
+        result = cos([self popOperand]);
+    } else if ([function isEqualToString:@"sqrt"]) {
+        result = sqrt([self popOperand]);
+    } else if ([function isEqualToString:@"log"]) {
+        result = log([self popOperand]);
+    }
+
+    [self pushOperand:result];
+    
+    return result;
+}
+
+
 
 @end
