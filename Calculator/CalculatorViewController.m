@@ -107,6 +107,12 @@
 }
 
 - (void)addToHistory:(NSString *)historyItem {
+    // Delete " =" from history display string if current historyItem is a "="
+    if ([historyItem isEqualToString:@"="]) {
+        self.historyDisplay.text = [self.historyDisplay.text stringByReplacingOccurrencesOfString:@" =" withString:@""];
+    }
+    
+    // Append new item to history with prepending space symbol
     self.historyDisplay.text = [self.historyDisplay.text stringByAppendingString:[historyItem stringByAppendingString:@" "]];
 }
 
