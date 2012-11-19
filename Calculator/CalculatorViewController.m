@@ -58,6 +58,7 @@
     double result = [self.brain performOperation:operation];
     self.display.text = [NSString stringWithFormat:@"%g", result];
     [self addToHistory:operation];
+    [self addToHistory:@"="];
 }
 
 - (IBAction)backspacePressed {
@@ -82,6 +83,27 @@
     self.display.text = @"0";
     self.userIsInTheMiddleOfEnteringANumber = NO;
     self.historyDisplay.text = @"";
+}
+
+- (IBAction)toggleSign {
+    NSString *firstCharacterOfDisplay = [self.display.text substringWithRange:NSMakeRange(0, 1)];
+    BOOL minusExists = [firstCharacterOfDisplay isEqualToString:@"-"];
+    NSUInteger displayLength = [self.display.text length];
+    if (self.userIsInTheMiddleOfEnteringANumber) {
+        if (minusExists) {
+            self.display.text = [self.display.text substringWithRange:NSMakeRange(1, displayLength-1)];
+        } else {
+            NSString *sign = @"-";
+            self.display.text = [sign stringByAppendingString:self.display.text];
+        }
+    } else {
+        // TODO call operation pressed somehow here
+        NSString *operation = @"+/-";
+        double result = [self.brain performOperation:operation];
+        self.display.text = [NSString stringWithFormat:@"%g", result];
+        [self addToHistory:operation];
+        [self addToHistory:@"="];
+    }
 }
 
 - (void)addToHistory:(NSString *)historyItem {
