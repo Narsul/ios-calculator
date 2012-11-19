@@ -34,6 +34,7 @@
 - (IBAction)enterPressed {
     [self.brain pushOperand:[self.display.text doubleValue]];
     self.userIsInTheMiddleOfEnteringANumber = NO;
+    [self addToHistory:self.display.text];
 }
 
 - (IBAction)dotPressed {
@@ -56,6 +57,7 @@
     NSString *operation = [sender currentTitle];
     double result = [self.brain performOperation:operation];
     self.display.text = [NSString stringWithFormat:@"%g", result];
+    [self addToHistory:operation];
 }
 
 - (IBAction)backspacePressed {
@@ -77,13 +79,13 @@
 }
 
 - (IBAction)clearPressed {
-//    if (self.userIsInTheMiddleOfEnteringANumber) {
-        self.display.text = @"0";
-        self.userIsInTheMiddleOfEnteringANumber = NO;
-//    } else {
-    
-//    }
-    
+    self.display.text = @"0";
+    self.userIsInTheMiddleOfEnteringANumber = NO;
+    self.historyDisplay.text = @"";
+}
+
+- (void)addToHistory:(NSString *)historyItem {
+    self.historyDisplay.text = [self.historyDisplay.text stringByAppendingString:[historyItem stringByAppendingString:@" "]];
 }
 
 @end
